@@ -264,16 +264,22 @@ static CDVWKInAppBrowser* instance = nil;
 }
 
 - (void)setCookie:(CDVInvokedUrlCommand*)command{
-    NSString* token = [command argumentAtIndex:0];
+    NSString* cookieName = [command argumentAtIndex:0];
+    NSString* cookieValue = [command argumentAtIndex:1];
+    NSString* cookiePath = [command argumentAtIndex:2];
+    NSString* cookieDomain = [command argumentAtIndex:3];
+    NSString* cookieURL = [command argumentAtIndex:4];
+
     WKWebsiteDataStore* dataStore = [WKWebsiteDataStore defaultDataStore];
     WKHTTPCookieStore* cookieStore = dataStore.httpCookieStore;
     NSMutableDictionary* cookieProperties = [NSMutableDictionary dictionary];
     
 
-    [cookieProperties setObject:@"CIAMSSOCookie" forKey:NSHTTPCookieName];
+    [cookieProperties setObject:cookieName forKey:NSHTTPCookieName];
     [cookieProperties setObject:token forKey:NSHTTPCookieValue];
-    [cookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
-    [cookieProperties setObject:@".ameren.com" forKey:NSHTTPCookieDomain];
+    [cookieProperties setObject:cookiePath forKey:NSHTTPCookiePath];
+    [cookieProperties setObject:cookieDomain forKey:NSHTTPCookieDomain];
+    [cookieProperties setObject:cookieURL forKey:NSHTTPCookieOriginURL]
     [cookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
 
     NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];

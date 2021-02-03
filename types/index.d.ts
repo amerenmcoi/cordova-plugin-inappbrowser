@@ -69,9 +69,13 @@ interface InAppBrowser {
     show(): void;
     /**
      * Sets the cookie for the InAppBrowser window
-     * @param token The token for the cookie
+     * @param name The name of the cookie
+     * @param value The cookie value
+     * @param path The cookie path
+     * @param domain The cookie domain
+     * @param url The url for the cookie
      */
-    setCookie(token: string): void;
+    setCookie(name: string, value: string, path: string, domain: string, url: string): void;
     /**
      * Injects JavaScript code into the InAppBrowser window.
      * @param script    Details of the script to run, specifying either a file or code key.

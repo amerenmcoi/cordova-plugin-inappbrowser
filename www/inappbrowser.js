@@ -51,8 +51,8 @@
             strUrl = urlutil.makeAbsolute(strUrl);
             exec(null, null, 'InAppBrowser', 'loadAfterBeforeload', [strUrl]);
         },
-        setCookie: function(token) {
-            exec(null, null, 'InAppBrowser', 'setCookie', [token]);
+        setCookie: function(name, value, path, domain, url) {
+            exec(null, null, 'InAppBrowser', 'setCookie', [name, value, path, domain, url]);
         },
         close: function(eventname) {
             exec(null, null, 'InAppBrowser', 'close', []);

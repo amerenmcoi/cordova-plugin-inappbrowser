@@ -474,6 +474,17 @@ public class InAppBrowser extends CordovaPlugin {
     }
 
     /**
+    * Creates and adds cookie to CookieStore
+    */
+    public void setCookie(String name, String value, String path, String domain, String url) {
+        HttpCookie cookie = new HttpCookie(name, value);
+        cookie.setPath(path);
+        cookie.setDomain(domain);
+        cookie.setSecure(true);
+        CookieManager manager = CookieManager.getInstance();
+        manager.setCookie(url, String.valueOf(cookie));
+    }
+    /**
      * Opens the intent, providing a chooser that excludes the current app to avoid
      * circular loops.
      */
