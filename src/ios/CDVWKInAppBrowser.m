@@ -276,7 +276,7 @@ static CDVWKInAppBrowser* instance = nil;
     
 
     [cookieProperties setObject:cookieName forKey:NSHTTPCookieName];
-    [cookieProperties setObject:token forKey:NSHTTPCookieValue];
+    [cookieProperties setObject:cookieValue forKey:NSHTTPCookieValue];
     [cookieProperties setObject:cookiePath forKey:NSHTTPCookiePath];
     [cookieProperties setObject:cookieDomain forKey:NSHTTPCookieDomain];
     [cookieProperties setObject:cookieURL forKey:NSHTTPCookieOriginURL]
