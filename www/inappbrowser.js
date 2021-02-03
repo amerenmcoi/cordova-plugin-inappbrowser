@@ -19,13 +19,13 @@
  *
  */
 
-(function () {
+(function() {
     var exec = require('cordova/exec');
     var channel = require('cordova/channel');
     var modulemapper = require('cordova/modulemapper');
     var urlutil = require('cordova/urlutil');
 
-    function InAppBrowser () {
+    function InAppBrowser() {
         this.channels = {
             beforeload: channel.create('beforeload'),
             loadstart: channel.create('loadstart'),
@@ -38,7 +38,7 @@
     }
 
     InAppBrowser.prototype = {
-        _eventHandler: function (event) {
+        _eventHandler: function(event) {
             if (event && event.type in this.channels) {
                 if (event.type === 'beforeload') {
                     this.channels[event.type].fire(event, this._loadAfterBeforeload);
@@ -47,31 +47,34 @@
                 }
             }
         },
-        _loadAfterBeforeload: function (strUrl) {
+        _loadAfterBeforeload: function(strUrl) {
             strUrl = urlutil.makeAbsolute(strUrl);
             exec(null, null, 'InAppBrowser', 'loadAfterBeforeload', [strUrl]);
         },
-        close: function (eventname) {
+        setCookie: function(token) {
+            exec(null, null, 'InAppBrowser', 'setCookie', [token]);
+        },
+        close: function(eventname) {
             exec(null, null, 'InAppBrowser', 'close', []);
         },
-        show: function (eventname) {
+        show: function(eventname) {
             exec(null, null, 'InAppBrowser', 'show', []);
         },
-        hide: function (eventname) {
+        hide: function(eventname) {
             exec(null, null, 'InAppBrowser', 'hide', []);
         },
-        addEventListener: function (eventname, f) {
+        addEventListener: function(eventname, f) {
             if (eventname in this.channels) {
                 this.channels[eventname].subscribe(f);
             }
         },
-        removeEventListener: function (eventname, f) {
+        removeEventListener: function(eventname, f) {
             if (eventname in this.channels) {
                 this.channels[eventname].unsubscribe(f);
             }
         },
 
-        executeScript: function (injectDetails, cb) {
+        executeScript: function(injectDetails, cb) {
             if (injectDetails.code) {
                 exec(cb, null, 'InAppBrowser', 'injectScriptCode', [injectDetails.code, !!cb]);
             } else if (injectDetails.file) {
@@ -81,7 +84,7 @@
             }
         },
 
-        insertCSS: function (injectDetails, cb) {
+        insertCSS: function(injectDetails, cb) {
             if (injectDetails.code) {
                 exec(cb, null, 'InAppBrowser', 'injectStyleCode', [injectDetails.code, !!cb]);
             } else if (injectDetails.file) {
@@ -92,7 +95,7 @@
         }
     };
 
-    module.exports = function (strUrl, strWindowName, strWindowFeatures, callbacks) {
+    module.exports = function(strUrl, strWindowName, strWindowFeatures, callbacks) {
         // Don't catch calls that write to existing frames (e.g. named iframes).
         if (window.frames && window.frames[strWindowName]) {
             var origOpenFunc = modulemapper.getOriginalSymbol(window, 'open');
@@ -107,7 +110,7 @@
             iab.addEventListener(callbackName, callbacks[callbackName]);
         }
 
-        var cb = function (eventname) {
+        var cb = function(eventname) {
             iab._eventHandler(eventname);
         };
 

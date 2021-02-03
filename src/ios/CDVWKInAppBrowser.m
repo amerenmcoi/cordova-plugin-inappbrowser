@@ -263,6 +263,23 @@ static CDVWKInAppBrowser* instance = nil;
     }
 }
 
+- (void)setCookie:(CDVInvokedUrlCommand*)command{
+    NSString* token = [command argumentAtIndex:0];
+    WKWebsiteDataStore* dataStore = [WKWebsiteDataStore defaultDataStore];
+    WKHTTPCookieStore* cookieStore = dataStore.httpCookieStore;
+    NSMutableDictionary* cookieProperties = [NSMutableDictionary dictionary];
+    
+
+    [cookieProperties setObject:@"CIAMSSOCookie" forKey:NSHTTPCookieName];
+    [cookieProperties setObject:token forKey:NSHTTPCookieValue];
+    [cookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
+    [cookieProperties setObject:@".ameren.com" forKey:NSHTTPCookieDomain];
+    [cookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
+
+    NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+    [cookieStore setCookie:cookie completionHandler:nil];
+}
+
 - (void)show:(CDVInvokedUrlCommand*)command{
     [self show:command withNoAnimate:NO];
 }
