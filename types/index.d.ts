@@ -6,13 +6,13 @@
 // Copyright (c) Microsoft Open Technologies Inc
 // Licensed under the MIT license.
 // TypeScript Version: 2.3
-type channel = "loadstart" | "loadstop" | "loaderror" | "exit" | "message" | "customscheme";
+export declare type channel = "loadstart" | "loadstop" | "loaderror" | "exit" | "message" | "customscheme";
 
 /**
  * The object returned from a call to cordova.InAppBrowser.open.
  * NOTE: The InAppBrowser window behaves like a standard web browser, and can't access Cordova APIs.
  */
-interface InAppBrowser {
+export interface InAppBrowser {
 
     /**
      * Opens a URL in a new InAppBrowser instance, the current browser instance, or the system browser.
@@ -94,15 +94,15 @@ interface InAppBrowser {
     insertCSS(css: { code: string } | { file: string }, callback: () => void): void;
 }
 
-type InAppBrowserEventListenerOrEventListenerObject = InAppBrowserEventListener | InAppBrowserEventListenerObject;
+export declare type InAppBrowserEventListenerOrEventListenerObject = InAppBrowserEventListener | InAppBrowserEventListenerObject;
 
-type InAppBrowserEventListener = (evt: InAppBrowserEvent) => void;
+export declare type InAppBrowserEventListener = (evt: InAppBrowserEvent) => void;
 
-interface InAppBrowserEventListenerObject {
+export interface InAppBrowserEventListenerObject {
     handleEvent(evt: InAppBrowserEvent): void;
 }
 
-interface InAppBrowserEvent extends Event {
+export interface InAppBrowserEvent extends Event {
     /** the eventname, either loadstart, loadstop, loaderror, or exit. */
     type: string;
     /** the URL that was loaded. */
@@ -113,6 +113,6 @@ interface InAppBrowserEvent extends Event {
     message: string;
 }
 
-interface Cordova {
+export interface Cordova {
     InAppBrowser: InAppBrowser;
 }
