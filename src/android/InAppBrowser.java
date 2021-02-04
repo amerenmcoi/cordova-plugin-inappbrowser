@@ -484,6 +484,7 @@ public class InAppBrowser extends CordovaPlugin {
         cookie.setSecure(true);
         CookieManager manager = CookieManager.getInstance();
         manager.setCookie(url, String.valueOf(cookie));
+        manager.flush();
     }
     /**
      * Opens the intent, providing a chooser that excludes the current app to avoid
