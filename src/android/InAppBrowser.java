@@ -492,8 +492,7 @@ public class InAppBrowser extends CordovaPlugin {
         cookie.setDomain(domain);
         cookie.setSecure(true);
         CookieManager manager = CookieManager.getInstance();
-        // String cookieString = cookie.getName() + "=" + cookie.getValue() + "; domain=" + cookie.getDomain();
-        manager.setCookie(domain, String.valueOf(cookie));
+        manager.setCookie(url, String.valueOf(cookie));
         manager.flush();
     }
     /**
