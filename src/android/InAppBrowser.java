@@ -252,6 +252,15 @@ public class InAppBrowser extends CordovaPlugin {
                 }
             });
         }
+        else if (action.equals("setCookie")) {
+            final String cookieName = args.getString(0);
+            final String cookieValue = args.getString(1);
+            final String cookiePath = args.getString(2);
+            final String cookieDomain = args.getString(3);
+            final String cookieUrl = args.getString(4);
+
+            this.setCookie(cookieName, cookieValue, cookiePath, cookieDomain, cookieUrl);
+        }
         else if (action.equals("close")) {
             closeDialog();
         }
@@ -477,13 +486,14 @@ public class InAppBrowser extends CordovaPlugin {
     /**
     * Creates and adds cookie to CookieStore
     */
-    public void setCookie(String name, String value, String path, String domain, String url) {
+    private void setCookie(String name, String value, String path, String domain, String url) {
         HttpCookie cookie = new HttpCookie(name, value);
         cookie.setPath(path);
         cookie.setDomain(domain);
         cookie.setSecure(true);
         CookieManager manager = CookieManager.getInstance();
-        manager.setCookie(url, String.valueOf(cookie));
+        // String cookieString = cookie.getName() + "=" + cookie.getValue() + "; domain=" + cookie.getDomain();
+        manager.setCookie(domain, String.valueOf(cookie));
         manager.flush();
     }
     /**
