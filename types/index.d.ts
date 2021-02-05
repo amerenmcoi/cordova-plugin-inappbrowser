@@ -116,3 +116,5 @@ export interface InAppBrowserEvent extends Event {
 export interface Cordova {
     InAppBrowser: InAppBrowser;
 }
+
+declare var cordova: Cordova;
