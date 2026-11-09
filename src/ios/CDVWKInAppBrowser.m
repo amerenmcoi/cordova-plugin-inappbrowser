@@ -320,13 +320,33 @@ static CDVWKInAppBrowser* instance = nil;
         if (weakSelf.inAppBrowserViewController != nil) {
             float osVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
             __strong __typeof(weakSelf) strongSelf = weakSelf;
+
             if (!strongSelf->tmpWindow) {
-                CGRect frame = [[UIScreen mainScreen] bounds];
-                if(initHidden && osVersion < 11){
-                   frame.origin.x = -10000;
+                if (@available(iOS 13.0, *)) {
+                    UIWindowScene *scene =
+                        strongSelf.viewController.view.window.windowScene;
+                    if (!scene) {
+                        for (UIScene *candidate in UIApplication.sharedApplication.connectedScenes) {
+                            if ([candidate isKindOfClass:[UIWindowScene class]] &&
+                                candidate.activationState == UISceneActivationStateForegroundActive) {
+                                scene = (UIWindowScene *)candidate;
+                                break;
+                            }
+                        }
+                    }
+                    if (scene) {
+                        strongSelf->tmpWindow = [[UIWindow alloc] initWithWindowScene:scene];
+                    }
                 }
-                strongSelf->tmpWindow = [[UIWindow alloc] initWithFrame:frame];
+                if (!strongSelf->tmpWindow) {
+                    CGRect frame = [[UIScreen mainScreen] bounds];
+                    if (initHidden && osVersion < 11) {
+                        frame.origin.x = -10000;
+                    }
+                    strongSelf->tmpWindow = [[UIWindow alloc] initWithFrame:frame];
+                }
             }
+ 
             UIViewController *tmpController = [[UIViewController alloc] init];
             [strongSelf->tmpWindow setRootViewController:tmpController];
             [strongSelf->tmpWindow setWindowLevel:UIWindowLevelNormal];
